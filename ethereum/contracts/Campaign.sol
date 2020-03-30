@@ -5,11 +5,11 @@ contract CampaignFactory {
     
     function createCampaign(uint minimum) public {
         address newCampaign = new Campaign(minimum, msg.sender);
-        deployedContract.push(newCampaign);
+        deployedCampaigns.push(newCampaign);
     }
     
     function getDeployedCampaigns() public view returns(address[]) {
-        return deployedCampaigns
+        return deployedCampaigns;
     }
 }
 
@@ -69,7 +69,7 @@ contract Campaign {
     }
     
     function finalizeRequest(uint index) public restricted {
-        require(requests.approvalCount > (approversCount/2))
+        require(requests[index].approvalCount > (approversCount/2));
         require(!requests[index].complete);
         
         requests[index].recipient.transfer(requests[index].value);
